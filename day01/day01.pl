@@ -51,6 +51,6 @@ main(_Argv) :-
     example(1),
     example(2),
     star(1, X),
-    format("~d\n", [X]),
+    format('~d~n', [X]),
     star(2, Y),
-    format("~d\n", [Y]).
+    format('~d~n', [Y]).
