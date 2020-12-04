@@ -1,4 +1,5 @@
 #!/usr/bin/env swipl
+% vim: ft=prolog
 
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
