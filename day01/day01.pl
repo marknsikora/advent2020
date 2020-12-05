@@ -29,12 +29,12 @@ solve(Numbers, A, B, C) :-
     A + B + C =:= 2020.
 
 example(1) :-
-    load_data(Numbers, 'sample.input'),
+    load_data(Numbers, 'sample'),
     solve(Numbers, A, B),
     A * B =:= 514579.
 
 example(2) :-
-    load_data(Numbers, 'sample.input'),
+    load_data(Numbers, 'sample'),
     solve(Numbers, A, B, C),
     A * B * C =:= 241861950.
 
