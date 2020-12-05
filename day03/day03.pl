@@ -66,8 +66,7 @@ solve(X, N, Down, Right) :-
 example(1) :-
     load_data(Trees, 'sample'),
     maplist(make_cycle, Trees, Cycles),
-    solve(Cycles, X, 1, 3),
-    X =:= 7.
+    solve(Cycles, 7, 1, 3).
 
 example(2) :-
     load_data(Trees, 'sample'),

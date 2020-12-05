@@ -41,13 +41,11 @@ solve(Passwords, F, X) :-
 
 example(1) :-
     load_data(Passwords, 'sample'),
-    solve(Passwords, validate, X),
-    X =:= 2.
+    solve(Passwords, validate, 2).
 
 example(2) :-
     load_data(Passwords, 'sample'),
-    solve(Passwords, revalidate, X),
-    X =:= 1.
+    solve(Passwords, revalidate, 1).
 
 star(1, X) :-
     load_data(Passwords, 'input'),
