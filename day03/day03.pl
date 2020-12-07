@@ -3,7 +3,6 @@
 
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
-:- use_module(library(yall)).
 
 :- initialization(main, main).
 
@@ -34,12 +33,12 @@ make_cycle([X|XS], cycle(X, Next), Final) :-
 
 make_cycle([X], cycle(X, Final), Final).
 
-move_forward(cycle(_, Next), Y, N) :-
+move_forward(N, cycle(_, Next), Y) :-
     N > 0,
     M is N - 1,
-    move_forward(Next, Y, M).
+    move_forward(M, Next, Y).
 
-move_forward(X, X, 0).
+move_forward(0, X, X).
 
 move_down([], [], _).
 
@@ -51,7 +50,7 @@ move_down([_|XS], Y, N) :-
 
 move(X, Y, Down, Right) :-
     move_down(X, T, Down),
-    maplist([A, B]>>move_forward(A, B, Right), T, Y).
+    maplist(move_forward(Right), T, Y).
 
 path([cycle(X, _)|XS], [X|YS], Down, Right) :-
     move(XS, Next, Down, Right),
