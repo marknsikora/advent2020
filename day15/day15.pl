@@ -13,60 +13,94 @@ load_data(Data, Name) :-
     open(Name, read, Stream),
     phrase_from_stream(input(Data), Stream).
 
-number_game(XS, 0, XS).
+number_game(Start, Ages) :-
+    prepare_ages(Start, State),
+    lazy_list(number_game_, State, Ages).
 
-number_game([X|XS], N, YS) :-
-    nth1(X_, XS, X),
-    M is N - 1,
-    number_game([X_,X|XS], M, YS).
+prepare_ages(X, Y) :-
+    empty_assoc(Ages),
+    prepare_ages(X, Ages, 1, Y).
 
-number_game(XS, N, YS) :-
-    M is N - 1,
-    number_game([0|XS], M, YS).
+prepare_ages([X|XS], Ages, N, Y) :-
+    put_assoc(X, Ages, N, NextAges),
+    M is N + 1,
+    prepare_ages(XS, NextAges, M, Y).
+
+prepare_ages([X], Ages, N, state(Ages, X, N)).
+
+number_game_(state(Ages, Last, N), state(NextAges, Next, M), Next) :-
+    get_assoc(Last, Ages, X),
+    Next is N - X,
+    put_assoc(Last, Ages, N, NextAges),
+    M is N + 1,
+    !.
+
+number_game_(state(Ages, Last, N), state(NextAges, 0, M), 0) :-
+    M is N + 1,
+    put_assoc(Last, Ages, N, NextAges),
+    !.
 
 example(1) :-
-    Start = [6, 3, 0],
-    Rest = [0, 4, 0, 1, 3, 3, 0],
-    append(Rest, Start, Final),
-    proper_length(Rest, N),
-    number_game(Start, N, Final).
+    Start = [0, 3, 6],
+    Next = [0, 3, 3, 1, 0, 4, 0],
+    number_game(Start, Final),
+    append(Next, _, Final).
 
 example(2) :-
-    Start = [2, 3, 1],
+    Start = [1, 3, 2],
     X = 1,
-    number_game(Start, 2017, [X|_]).
+    number_game(Start, Rest),
+    nth1(2017, Rest, X).
 
 example(3) :-
-    Start = [3, 1, 2],
+    Start = [2, 1, 3],
     X = 10,
-    number_game(Start, 2017, [X|_]).
+    number_game(Start, Rest),
+    nth1(2017, Rest, X).
 
 example(4) :-
-    Start = [3, 2, 1],
+    Start = [1, 2, 3],
     X = 27,
-    number_game(Start, 2017, [X|_]).
+    number_game(Start, Rest),
+    nth1(2017, Rest, X).
 
 example(5) :-
-    Start = [1, 3, 2],
+    Start = [2, 3, 1],
     X = 78,
-    number_game(Start, 2017, [X|_]).
+    number_game(Start, Rest),
+    nth1(2017, Rest, X).
 
 example(6) :-
-    Start = [1, 2, 3],
+    Start = [3, 2, 1],
     X = 438,
-    number_game(Start, 2017, [X|_]).
+    number_game(Start, Rest),
+    nth1(2017, Rest, X).
 
 example(7) :-
-    Start = [2, 1, 3],
+    Start = [3, 1, 2],
     X = 1836,
-    number_game(Start, 2017, [X|_]).
+    number_game(Start, Rest),
+    nth1(2017, Rest, X).
+
+example(8) :-
+    Start = [0, 3, 6],
+    X = 175594,
+    number_game(Start, Rest),
+    nth1(29999997, Rest, X).
 
 star(1, X) :-
     load_data(Numbers, 'input'),
-    reverse(Numbers, Reverse),
-    proper_length(Reverse, L),
+    proper_length(Numbers, L),
+    number_game(Numbers, Rest),
     N is 2020 - L,
-    number_game(Reverse, N, [X|_]).
+    nth1(N, Rest, X).
+
+star(2, X) :-
+    load_data(Numbers, 'input'),
+    proper_length(Numbers, L),
+    number_game(Numbers, Rest),
+    N is 30000000 - L,
+    nth1(N, Rest, X).
 
 main(_Argv) :-
     example(1),
@@ -77,4 +111,6 @@ main(_Argv) :-
     example(6),
     example(7),
     star(1, X),
-    format('~d~n', [X]).
+    format('~d~n', [X]),
+    star(2, Y),
+    format('~d~n', [Y]).
