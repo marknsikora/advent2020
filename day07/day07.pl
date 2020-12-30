@@ -2,6 +2,7 @@
 % vim: ft=prolog
 
 :- use_module(library(apply)).
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -56,7 +57,7 @@ can_contain_gold(Rules, X) :-
 
 constraint_depth(Rules, constraint(N, Bag), X) :-
     bag_depth(Rules, Bag, Y),
-    X is N + N * Y.
+    X #= N + N * Y.
 
 bag_depth(Rules, Bag, 0) :-
     member(rule(Bag, []), Rules).

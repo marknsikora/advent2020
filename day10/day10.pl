@@ -2,6 +2,7 @@
 % vim: ft=prolog
 
 :- use_module(library(apply)).
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -19,33 +20,33 @@ validate(3).
 differences(Numbers, X, Y) :-
     sort(Numbers, Sorted),
     append(Start, [_], [0|Sorted]),
-    maplist([A,B,C]>>(C is A - B), Sorted, Start, Diff),
+    maplist([A,B,C]>>(C #= A - B), Sorted, Start, Diff),
     maplist(validate, Diff),
     occurrences_of_term(1, Diff, X),
     occurrences_of_term(3, Diff, Y_),
-    Y is Y_ + 1.
+    Y #= Y_ + 1.
 
 arrangements(Numbers, X) :-
     sort([0|Numbers], Sorted),
     arrangements(Sorted, 0, 1, X).
 
 arrangements([X,Y|Numbers], Streak, Comb, Z) :-
-    X + 1 =:= Y,
-    Streak_ is Streak + 1,
+    Y #= X + 1,
+    Streak_ #= Streak + 1,
     arrangements([Y|Numbers], Streak_, Comb, Z).
 
 arrangements([_|Numbers], 0, Comb, Z) :-
     arrangements(Numbers, 0, Comb, Z).
 
 arrangements([_|Numbers], Streak, Comb, Z) :-
-    Streak_ is Streak - 1,
+    Streak_ #= Streak - 1,
     triangular(Streak_, T),
-    Comb_ is Comb * (T + 1),
+    Comb_ #= Comb * (T + 1),
     arrangements(Numbers, 0, Comb_, Z).
 
 arrangements([], _, X, X).
 
-triangular(X, Y) :- Y is (X * (X + 1)) / 2.
+triangular(X, Y) :- Y #= (X * (X + 1)) // 2.
 
 example(1) :-
     phrase_from_file(input(Numbers), 'sample-1'),
@@ -66,7 +67,7 @@ example(4) :-
 star(1, X) :-
     phrase_from_file(input(Numbers), 'input'),
     differences(Numbers, A, B),
-    X is A * B.
+    X #= A * B.
 
 star(2, X) :-
     phrase_from_file(input(Numbers), 'input'),

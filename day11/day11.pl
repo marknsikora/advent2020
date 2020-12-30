@@ -22,21 +22,21 @@ grid_to_points(Grid, Seats) :-
     foldl(grid_row, Grid, state(0, []), state(_, Seats)).
 
 grid_row(Row, state(Y, Seats), state(Y_, NextSeats)) :-
-    Y_ is Y + 1,
+    Y_ #= Y + 1,
     foldl(grid_seat(Y), Row, state(0, Seats), state(_, NextSeats)).
 
 grid_seat(_, floor, state(X, Seats), state(X_, Seats)) :-
-    X_ is X + 1.
+    X_ #= X + 1.
 
 grid_seat(Y, seat, state(X, Seats), state(X_, [[X, Y]|Seats])) :-
-    X_ is X + 1.
+    X_ #= X + 1.
 
 point_neighbours(Seats, [X, Y], Neighbours) :-
-    NextX is X + 1,
-    PrevX is X - 1,
-    NextY is Y + 1,
-    PrevY is Y - 1,
-    % This is an ordset
+    NextX #= X + 1,
+    PrevX #= X - 1,
+    NextY #= Y + 1,
+    PrevY #= Y - 1,
+    % This #= an ordset
     L = [
         [PrevX, PrevY],
         [PrevX, Y],
@@ -81,7 +81,7 @@ rule(Threshold, Occupied, Neighbours-Seat, Seat) :-
     include({Occupied}/[Y]>>get_assoc(Y, Occupied, _), Neighbours, OccupiedNeighbours),
     proper_length(OccupiedNeighbours, L),
     (   get_assoc(Seat, Occupied, _)
-    ->  L < Threshold
+    ->  L #< Threshold
     ;   ord_empty(OccupiedNeighbours)
     ).
 

@@ -2,6 +2,7 @@
 % vim: ft=prolog
 
 :- use_module(library(apply)).
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -28,14 +29,14 @@ find_loop(Insts, Visited, IP, Acc, X) :-
     find_loop(Insts, [IP|Visited], IP_, Acc_, X).
 
 run(inst("acc", N), IP, Acc, IP_, Acc_) :-
-    Acc_ is Acc + N,
-    IP_ is IP + 1.
+    Acc_ #= Acc + N,
+    IP_ #= IP + 1.
 
 run(inst("jmp", N), IP, Acc, IP_, Acc) :-
-    IP_ is IP + N.
+    IP_ #= IP + N.
 
 run(inst("nop", _), IP, Acc, IP_, Acc) :-
-    IP_ is IP + 1.
+    IP_ #= IP + 1.
 
 terminate(Insts, X) :- terminate(Insts, [], 0, 0, X).
 

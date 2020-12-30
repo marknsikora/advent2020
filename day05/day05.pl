@@ -2,6 +2,7 @@
 % vim: ft=prolog
 
 :- use_module(library(apply)).
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -23,12 +24,12 @@ ticket(Seat, Row, Col) :-
     append(X, Y, Seat_),
     maplist(row, X, Row_),
     maplist(col, Y, Col_),
-    foldl([A,B,C]>>(C is A + 2 * B), Row_, 0, Row),
-    foldl([A,B,C]>>(C is A + 2 * B), Col_, 0, Col).
+    foldl([A,B,C]>>(C #= A + 2 * B), Row_, 0, Row),
+    foldl([A,B,C]>>(C #= A + 2 * B), Col_, 0, Col).
 
 id(Seat, ID) :-
     ticket(Seat, Row, Col),
-    ID is Row * 8 + Col.
+    ID #= Row * 8 + Col.
 
 example(1) :-
     ticket("BFFFBBFRRR", 70, 7).

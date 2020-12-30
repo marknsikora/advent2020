@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 % vim: ft=prolog
 
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -21,14 +22,14 @@ input_line(password(Min, Max, Char, Password)) -->
 
 validate(password(Min, Max, Char, Password)) :-
     occurrences_of_term(Char, Password, Count),
-    Count =< Max,
-    Count >= Min.
+    Count #=< Max,
+    Count #>= Min.
 
 revalidate(password(Min, Max, Char, Password)) :-
     nth1(Min, Password, A),
     nth1(Max, Password, B),
-    A \= B,
-    ( A =:= Char ; B =:= Char ).
+    A #\= B,
+    ( A #= Char ; B #= Char ).
 
 solve(Passwords, F, X) :-
     include(F, Passwords, Valid),

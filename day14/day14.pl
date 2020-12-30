@@ -2,6 +2,7 @@
 % vim: ft=prolog
 
 :- use_module(library(apply)).
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -43,20 +44,20 @@ execute_data(mask(X), state(Mem, _), state(Mem, Mask)) :-
     foldl(data_mask, X, mask(0, 0), Mask).
 
 execute_data(mem(X, Y), state(Mem, mask(A, B)), state(NewMem, mask(A, B))) :-
-    Y_ is Y \/ A /\ \B,
+    Y_ #= Y \/ A /\ \B,
     put_assoc(X, Mem, Y_, NewMem).
 
 data_mask(x, mask(A, B), mask(A_, B_)) :-
-    A_ is A << 1,
-    B_ is B << 1.
+    A_ #= A << 1,
+    B_ #= B << 1.
 
 data_mask(1, mask(A, B), mask(A_, B_)) :-
-    A_ is (A << 1) + 1,
-    B_ is B << 1.
+    A_ #= (A << 1) + 1,
+    B_ #= B << 1.
 
 data_mask(0, mask(A, B), mask(A_, B_)) :-
-    A_ is A << 1,
-    B_ is (B << 1) + 1.
+    A_ #= A << 1,
+    B_ #= (B << 1) + 1.
 
 execute_memory(mask(X), state(Mem, _), state(Mem, Mask)) :-
     findall(M, foldl(memory_mask, X, mask(0, 0), M), Mask).
@@ -65,24 +66,24 @@ execute_memory(mem(X, Y), state(Mem, Mask), state(NewMem, Mask)) :-
     foldl(set_memory_mask(X, Y), Mask, Mem, NewMem).
 
 set_memory_mask(X, Y, mask(A, B), Mem, NewMem) :-
-    X_ is A \/ (\B /\ X),
+    X_ #= A \/ (\B /\ X),
     put_assoc(X_, Mem, Y, NewMem).
 
 memory_mask(0, mask(A, B), mask(A_, B_)) :-
-    A_ is A << 1,
-    B_ is B << 1.
+    A_ #= A << 1,
+    B_ #= B << 1.
 
 memory_mask(1, mask(A, B), mask(A_, B_)) :-
-    A_ is (A << 1) + 1,
-    B_ is B << 1.
+    A_ #= (A << 1) + 1,
+    B_ #= B << 1.
 
 memory_mask(x, mask(A, B), mask(A_, B_)) :-
-    A_ is A << 1,
-    B_ is (B << 1) + 1.
+    A_ #= A << 1,
+    B_ #= (B << 1) + 1.
 
 memory_mask(x, mask(A, B), mask(A_, B_)) :-
-    A_ is (A << 1) + 1,
-    B_ is (B << 1) + 1.
+    A_ #= (A << 1) + 1,
+    B_ #= (B << 1) + 1.
 
 example(1) :-
     phrase_from_file(input(Insts), 'sample-1'),

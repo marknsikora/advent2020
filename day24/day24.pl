@@ -71,8 +71,8 @@ rule(Blacks, Tile) :-
     include({Blacks}/[A]>>get_assoc(A, Blacks, _), Neighbours, BlackNeighbours),
     proper_length(BlackNeighbours, L),
     (   get_assoc(Tile, Blacks, _)
-    ->  L =< 2
-    ;   L =:= 2
+    ->  L #=< 2
+    ;   L #= 2
     ).
 
 example(1) :-

@@ -22,27 +22,27 @@ bus_id(X) --> integer(X).
 bus_id(x) --> "x".
 
 earlier_arrival(Time, X, Y, Z) :-
-    NextX is Time mod X,
-    NextY is Time mod Y,
-    NextX > NextY ->
+    NextX #= Time mod X,
+    NextY #= Time mod Y,
+    NextX #> NextY ->
         Z = X;
         Z = Y.
 
 earliest_departure(Start, Busses, Z) :-
     include(number, Busses, Numbers),
     foldl(earlier_arrival(Start), Numbers, 1, X),
-    Wait is X - Start mod X,
-    Z is X * Wait.
+    Wait #= X - Start mod X,
+    Z #= X * Wait.
 
 enumerate_busses(Busses, X) :- enumerate_busses(Busses, 0, X).
 
 enumerate_busses([x|Busses], N, X) :-
-    M is N + 1,
+    M #= N + 1,
     enumerate_busses(Busses, M, X).
 
 enumerate_busses([B|Busses], N, [B-N|X]) :-
     number(B),
-    M is N + 1,
+    M #= N + 1,
     enumerate_busses(Busses, M, X).
 
 enumerate_busses([], _, []).

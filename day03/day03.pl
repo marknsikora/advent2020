@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 % vim: ft=prolog
 
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -23,8 +24,8 @@ make_cycle([X|XS], cycle(X, Next), Final) :-
 make_cycle([X], cycle(X, Final), Final).
 
 move_forward(N, cycle(_, Next), Y) :-
-    N > 0,
-    M is N - 1,
+    N #> 0,
+    M #= N - 1,
     move_forward(M, Next, Y).
 
 move_forward(0, X, X).
@@ -34,7 +35,7 @@ move_down([], [], _).
 move_down(X, X, 1).
 
 move_down([_|XS], Y, N) :-
-    M is N - 1,
+    M #= N - 1,
     move_down(XS, Y, M).
 
 move(X, Y, Down, Right) :-
@@ -64,7 +65,7 @@ example(2) :-
     solve(Cycles, C, 1, 5),
     solve(Cycles, D, 1, 7),
     solve(Cycles, E, 2, 1),
-    A * B * C * D * E =:= 336.
+    A * B * C * D * E #= 336.
 
 star(1, X) :-
     phrase_from_file(input(Trees), 'input'),
@@ -79,8 +80,7 @@ star(2, X) :-
     solve(Cycles, C, 1, 5),
     solve(Cycles, D, 1, 7),
     solve(Cycles, E, 2, 1),
-    X is A * B * C * D * E.
-
+    X #= A * B * C * D * E.
 
 main(_Argv) :-
     example(1),

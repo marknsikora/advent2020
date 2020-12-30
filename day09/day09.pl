@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 % vim: ft=prolog
 
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -13,7 +14,7 @@ input_line(X) --> integer(X), "\n".
 weakness(Preamble, [X|XS], Y) :-
     member(A, Preamble),
     member(B, Preamble),
-    X =:= A + B,
+    X #= A + B,
     append(Preamble, [X], [_|Preamble_]),
     weakness(Preamble_, XS, Y).
 
@@ -23,11 +24,11 @@ crack(Numbers, N, X) :-
     append(_, Rest, Numbers),
     append(Range, _, Rest),
     proper_length(Range, L),
-    L > 1,
+    L #> 1,
     sum_list(Range, N),
     min_list(Range, Min),
     max_list(Range, Max),
-    X is Min + Max.
+    X #= Min + Max.
 
 example(1) :-
     phrase_from_file(input(Data), 'sample'),

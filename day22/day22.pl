@@ -17,12 +17,12 @@ input(PlayerOne, PlayerTwo) -->
     eos.
 
 combat([X|XS], [Y|YS], Z) :-
-    X > Y,
+    X #> Y,
     append(XS, [X, Y], Next),
     combat(Next, YS, Z).
 
 combat([X|XS], [Y|YS], Z) :-
-    X < Y,
+    X #< Y,
     append(YS, [Y, X], Next),
     combat(XS, Next, Z).
 
@@ -55,14 +55,14 @@ recursive_combat(Previous, [X|XS], [Y|YS], A, B) :-
 
 % Rule 4, normal round
 recursive_combat(Previous, [X|XS], [Y|YS], A, B) :-
-    (   X < Y
+    (   X #< Y
     ->  Winner = 2
     ;   Winner = 1
     ),
     recursive_next_round(Previous, [X|XS], [Y|YS], Winner, A, B).
 
 recursive_next_round(Previous, [X|XS], [Y|YS], Winner, A, B) :-
-    (   Winner =:= 1
+    (   Winner #= 1
     -> (append(XS, [X, Y], NextX), NextY = YS)
     ;  (append(YS, [Y, X], NextY), NextX = XS)
     ),

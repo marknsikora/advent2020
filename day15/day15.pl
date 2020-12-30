@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 % vim: ft=prolog
 
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -19,20 +20,20 @@ prepare_ages(X, Y) :-
 
 prepare_ages([X|XS], Ages, N, Y) :-
     put_assoc(X, Ages, N, NextAges),
-    M is N + 1,
+    M #= N + 1,
     prepare_ages(XS, NextAges, M, Y).
 
 prepare_ages([X], Ages, N, state(Ages, X, N)).
 
 number_game_(state(Ages, Last, N), state(NextAges, Next, M), Next) :-
     get_assoc(Last, Ages, X),
-    Next is N - X,
+    Next #= N - X,
     put_assoc(Last, Ages, N, NextAges),
-    M is N + 1,
+    M #= N + 1,
     !.
 
 number_game_(state(Ages, Last, N), state(NextAges, 0, M), 0) :-
-    M is N + 1,
+    M #= N + 1,
     put_assoc(Last, Ages, N, NextAges),
     !.
 
@@ -88,14 +89,14 @@ star(1, X) :-
     phrase_from_file(input(Numbers), 'input'),
     proper_length(Numbers, L),
     number_game(Numbers, Rest),
-    N is 2020 - L,
+    N #= 2020 - L,
     nth1(N, Rest, X).
 
 star(2, X) :-
     phrase_from_file(input(Numbers), 'input'),
     proper_length(Numbers, L),
     number_game(Numbers, Rest),
-    N is 30000000 - L,
+    N #= 30000000 - L,
     nth1(N, Rest, X).
 
 main(_Argv) :-

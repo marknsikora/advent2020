@@ -12,7 +12,7 @@ input(X) --> sequence(food_line, X), eos, !.
 
 word(X) -->
     sequence(alpha_to_lower, Codes),
-    { proper_length(Codes, L), L > 0, atom_codes(X, Codes) }.
+    { proper_length(Codes, L), L #> 0, atom_codes(X, Codes) }.
 
 food_line(X-Y) -->
     ingredients(X),

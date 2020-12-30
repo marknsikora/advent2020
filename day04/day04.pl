@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 % vim: ft=prolog
 
+:- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
 :- use_module(library(dcg/high_order)).
@@ -49,12 +50,12 @@ revalidate(X) :-
     member(pair("ecl", Ecl), X), phrase(ecl, Ecl),
     member(pair("pid", Pid), X), phrase(pid, Pid).
 
-byr --> integer(X), { X >= 1920, X =< 2002 }.
-iyr --> integer(X), { X >= 2010, X =< 2020 }.
-eyr --> integer(X), { X >= 2020, X =< 2030 }.
+byr --> integer(X), { X #>= 1920, X #=< 2002 }.
+iyr --> integer(X), { X #>= 2010, X #=< 2020 }.
+eyr --> integer(X), { X #>= 2020, X #=< 2030 }.
 
-hgt --> integer(X), "cm", { X >= 150, X =< 193 }.
-hgt --> integer(X), "in", { X >= 59, X =< 76 }.
+hgt --> integer(X), "cm", { X #>= 150, X #=< 193 }.
+hgt --> integer(X), "in", { X #>= 59,  X #=< 76 }.
 
 hcl --> "#", sequence(xdigit, X), { proper_length(X, 6) }.
 
