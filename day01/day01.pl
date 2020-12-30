@@ -3,15 +3,12 @@
 
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
+:- use_module(library(dcg/high_order)).
 
 :- initialization(main, main).
 
-input([X|Data]) -->
-    integer(X),
-    "\n",
-    input(Data).
-
-input([]) --> eos.
+input(X) --> sequence(input_line, X), eos.
+input_line(X) --> integer(X), "\n".
 
 solve(Numbers, A, B) :-
     member(A, Numbers),

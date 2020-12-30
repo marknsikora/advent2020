@@ -9,8 +9,8 @@
 
 :- initialization(main, main).
 
-input(Data) --> sequence(line, Data), eos.
-line(X) --> sequence(nonblank, X), "\n", { member(_, X) }.
+input(Data) --> sequence(input_line, Data), eos.
+input_line(X) --> sequence(nonblank, X), "\n", { member(_, X) }.
 
 row(X, 1) :- char_code('B', X).
 row(X, 0) :- char_code('F', X).

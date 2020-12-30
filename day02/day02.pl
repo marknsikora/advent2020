@@ -3,10 +3,12 @@
 
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
+:- use_module(library(dcg/high_order)).
 
 :- initialization(main, main).
 
-input([password(Min, Max, Char, Password)|Data]) -->
+input(X) --> sequence(input_line, X), eos.
+input_line(password(Min, Max, Char, Password)) -->
     integer(Min),
     "-",
     integer(Max),
@@ -15,10 +17,7 @@ input([password(Min, Max, Char, Password)|Data]) -->
     ":",
     blanks,
     nonblanks(Password),
-    "\n",
-    input(Data).
-
-input([]) --> eos.
+    "\n".
 
 validate(password(Min, Max, Char, Password)) :-
     occurrences_of_term(Char, Password, Count),

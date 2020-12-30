@@ -3,23 +3,16 @@
 
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
+:- use_module(library(dcg/high_order)).
 
 :- initialization(main, main).
 
-input([X|Data]) -->
-    line(X),
-    input(Data).
+input(X) --> sequence(input_line, X), eos.
 
-input([]) --> eos.
+input_line(X) --> sequence(terrain, X), "\n".
 
-line([X|Data]) -->
-    ( is_slope(X) ; is_tree(X) ),
-    line(Data).
-
-line([]) --> "\n".
-
-is_slope(slope) --> ".".
-is_tree(tree) --> "#".
+terrain(slope) --> ".".
+terrain(tree) --> "#".
 
 make_cycle(X, Cycle) :-
     make_cycle(X, Cycle, Cycle).

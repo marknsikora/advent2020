@@ -7,7 +7,10 @@
 
 :- initialization(main, main).
 
-input(X, Y) --> integer(X), "\n", integer(Y), "\n".
+input(X, Y) -->
+    integer(X), "\n",
+    integer(Y), "\n",
+    eos.
 
 find_key(S, G, X) :- find_key(S, G, 0, 1, X).
 
