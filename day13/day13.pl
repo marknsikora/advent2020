@@ -62,16 +62,12 @@ prize_([X-N,Y-M|XS], A) :-
 
 prize_([X-N], A) :- A #= X - N.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 example(1) :-
-    load_data(data(Depart, Busses), 'sample'),
+    phrase_from_file(input(data(Depart, Busses)), 'sample'),
     earliest_departure(Depart, Busses, 295).
 
 example(2) :-
-    load_data(data(_, Busses), 'sample'),
+    phrase_from_file(input(data(_, Busses)), 'sample'),
     prize(Busses, 1068781).
 
 example(3) :- prize([17,x,13,19], 3417).
@@ -81,11 +77,11 @@ example(6) :- prize([67,7,x,59,61], 1261476).
 example(7) :- prize([1789,37,47,1889], 1202161486).
 
 star(1, X) :-
-    load_data(data(Depart, Busses), 'input'),
+    phrase_from_file(input(data(Depart, Busses)), 'input'),
     earliest_departure(Depart, Busses, X).
 
 star(2, X) :-
-    load_data(data(_, Busses), 'input'),
+    phrase_from_file(input(data(_, Busses)), 'input'),
     prize(Busses, X).
 
 main(_Argv) :-

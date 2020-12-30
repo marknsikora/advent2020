@@ -17,10 +17,6 @@ input_line(inst(Op, N)) -->
     integer(N),
     "\n".
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 find_loop(Insts, X) :- find_loop(Insts, [], 0, 0, X).
 
 find_loop(_Insts, Visited, IP, Acc, Acc) :-
@@ -56,21 +52,21 @@ rewrite(inst("jmp", N), inst("nop", N)).
 rewrite(inst("nop", N), inst("jmp", N)).
 
 example(1) :-
-    load_data(Insts, 'sample'),
+    phrase_from_file(input(Insts), 'sample'),
     find_loop(Insts, 5).
 
 example(2) :-
-    load_data(Insts, 'sample'),
+    phrase_from_file(input(Insts), 'sample'),
     select(A, Insts, B, Fixed),
     rewrite(A, B),
     terminate(Fixed, 8).
 
 star(1, X) :-
-    load_data(Insts, 'input'),
+    phrase_from_file(input(Insts), 'input'),
     find_loop(Insts, X).
 
 star(2, X) :-
-    load_data(Insts, 'input'),
+    phrase_from_file(input(Insts), 'input'),
     select(A, Insts, B, Fixed),
     rewrite(A, B),
     terminate(Fixed, X).

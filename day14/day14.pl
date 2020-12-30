@@ -33,10 +33,6 @@ instruction(mem(X, Y)) -->
     whites,
     integer(Y).
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 simulate(Insts, Decoder, X) :-
     empty_assoc(EmptyMem),
     foldl(Decoder, Insts, state(EmptyMem, -), state(NewMem, _)),
@@ -89,19 +85,19 @@ memory_mask(x, mask(A, B), mask(A_, B_)) :-
     B_ is (B << 1) + 1.
 
 example(1) :-
-    load_data(Insts, 'sample-1'),
+    phrase_from_file(input(Insts), 'sample-1'),
     simulate(Insts, execute_data, 165).
 
 example(2) :-
-    load_data(Insts, 'sample-2'),
+    phrase_from_file(input(Insts), 'sample-2'),
     simulate(Insts, execute_memory, 208).
 
 star(1, X) :-
-    load_data(Insts, 'input'),
+    phrase_from_file(input(Insts), 'input'),
     simulate(Insts, execute_data, X).
 
 star(2, X) :-
-    load_data(Insts, 'input'),
+    phrase_from_file(input(Insts), 'input'),
     simulate(Insts, execute_memory, X).
 
 main(_Argv) :-

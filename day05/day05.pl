@@ -12,10 +12,6 @@
 input(Data) --> sequence(line, Data), eos.
 line(X) --> sequence(nonblank, X), "\n", { member(_, X) }.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 row(X, 1) :- char_code('B', X).
 row(X, 0) :- char_code('F', X).
 
@@ -44,12 +40,12 @@ example(3) :-
     ticket("BBFFBBFRLL", 102, 4).
 
 star(1, X) :-
-    load_data(Tickets, 'input'),
+    phrase_from_file(input(Tickets), 'input'),
     maplist(id, Tickets, IDs),
     max_list(IDs, X).
 
 star(2, X) :-
-    load_data(Tickets, 'input'),
+    phrase_from_file(input(Tickets), 'input'),
     maplist(id, Tickets, IDs),
     min_list(IDs, Min),
     max_list(IDs, Max),

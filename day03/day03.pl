@@ -21,10 +21,6 @@ line([]) --> "\n".
 is_slope(slope) --> ".".
 is_tree(tree) --> "#".
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 make_cycle(X, Cycle) :-
     make_cycle(X, Cycle, Cycle).
 
@@ -63,12 +59,12 @@ solve(X, N, Down, Right) :-
     occurrences_of_term(tree, Path, N).
 
 example(1) :-
-    load_data(Trees, 'sample'),
+    phrase_from_file(input(Trees), 'sample'),
     maplist(make_cycle, Trees, Cycles),
     solve(Cycles, 7, 1, 3).
 
 example(2) :-
-    load_data(Trees, 'sample'),
+    phrase_from_file(input(Trees), 'sample'),
     maplist(make_cycle, Trees, Cycles),
     solve(Cycles, A, 1, 1),
     solve(Cycles, B, 1, 3),
@@ -78,12 +74,12 @@ example(2) :-
     A * B * C * D * E =:= 336.
 
 star(1, X) :-
-    load_data(Trees, 'input'),
+    phrase_from_file(input(Trees), 'input'),
     maplist(make_cycle, Trees, Cycles),
     solve(Cycles, X, 1, 3).
 
 star(2, X) :-
-    load_data(Trees, 'input'),
+    phrase_from_file(input(Trees), 'input'),
     maplist(make_cycle, Trees, Cycles),
     solve(Cycles, A, 1, 1),
     solve(Cycles, B, 1, 3),

@@ -9,10 +9,6 @@
 
 input(Data) --> sequence(integer, ",", Data), "\n", eos.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 number_game(Start, Ages) :-
     prepare_ages(Start, State),
     lazy_list(number_game_, State, Ages).
@@ -89,14 +85,14 @@ example(8) :-
     nth1(29999997, Rest, X).
 
 star(1, X) :-
-    load_data(Numbers, 'input'),
+    phrase_from_file(input(Numbers), 'input'),
     proper_length(Numbers, L),
     number_game(Numbers, Rest),
     N is 2020 - L,
     nth1(N, Rest, X).
 
 star(2, X) :-
-    load_data(Numbers, 'input'),
+    phrase_from_file(input(Numbers), 'input'),
     proper_length(Numbers, L),
     number_game(Numbers, Rest),
     N is 30000000 - L,

@@ -20,10 +20,6 @@ input([password(Min, Max, Char, Password)|Data]) -->
 
 input([]) --> eos.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 validate(password(Min, Max, Char, Password)) :-
     occurrences_of_term(Char, Password, Count),
     Count =< Max,
@@ -40,19 +36,19 @@ solve(Passwords, F, X) :-
     proper_length(Valid, X).
 
 example(1) :-
-    load_data(Passwords, 'sample'),
+    phrase_from_file(input(Passwords), 'sample'),
     solve(Passwords, validate, 2).
 
 example(2) :-
-    load_data(Passwords, 'sample'),
+    phrase_from_file(input(Passwords), 'sample'),
     solve(Passwords, revalidate, 1).
 
 star(1, X) :-
-    load_data(Passwords, 'input'),
+    phrase_from_file(input(Passwords), 'input'),
     solve(Passwords, validate, X).
 
 star(2, X) :-
-    load_data(Passwords, 'input'),
+    phrase_from_file(input(Passwords), 'input'),
     solve(Passwords, revalidate, X).
 
 main(_Argv) :-

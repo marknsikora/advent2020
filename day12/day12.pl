@@ -19,10 +19,6 @@ direction(left(X)) --> "L", integer(X).
 direction(right(X)) --> "R", integer(X).
 direction(forward(X)) --> "F", integer(X).
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 move(north(N), position(X, Y, A), position(X, Y_, A)) :-
     Y_ is Y + N.
 
@@ -72,24 +68,24 @@ waypoint(forward(N), position(SX, SY, WX, WY), position(SX_, SY_, WX, WY)) :-
 manhattan(X, Y, M) :- M is abs(X) + abs(Y).
 
 example(1) :-
-    load_data(Directions, 'sample'),
+    phrase_from_file(input(Directions), 'sample'),
     foldl(move, Directions, position(0, 0, 0), position(X, Y, _)),
     manhattan(X, Y, M),
     M =:= 25.
 
 example(2) :-
-    load_data(Directions, 'sample'),
+    phrase_from_file(input(Directions), 'sample'),
     foldl(waypoint, Directions, position(0, 0, 10, 1), position(X, Y, _, _)),
     manhattan(X, Y, M),
     M =:= 286.
 
 star(1, M) :-
-    load_data(Directions, 'input'),
+    phrase_from_file(input(Directions), 'input'),
     foldl(move, Directions, position(0, 0, 0), position(X, Y, _)),
     manhattan(X, Y, M).
 
 star(2, M) :-
-    load_data(Directions, 'input'),
+    phrase_from_file(input(Directions), 'input'),
     foldl(waypoint, Directions, position(0, 0, 10, 1), position(X, Y, _, _)),
     manhattan(X, Y, M).
 

@@ -12,10 +12,6 @@
 input(Data) --> sequence(input_line, Data), eos.
 input_line(X) --> integer(X), "\n".
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 validate(1).
 validate(2).
 validate(3).
@@ -52,28 +48,28 @@ arrangements([], _, X, X).
 triangular(X, Y) :- Y is (X * (X + 1)) / 2.
 
 example(1) :-
-    load_data(Numbers, 'sample-1'),
+    phrase_from_file(input(Numbers), 'sample-1'),
     differences(Numbers, 7, 5).
 
 example(2) :-
-    load_data(Numbers, 'sample-2'),
+    phrase_from_file(input(Numbers), 'sample-2'),
     differences(Numbers, 22, 10).
 
 example(3) :-
-    load_data(Numbers, 'sample-1'),
+    phrase_from_file(input(Numbers), 'sample-1'),
     arrangements(Numbers, 8).
 
 example(4) :-
-    load_data(Numbers, 'sample-2'),
+    phrase_from_file(input(Numbers), 'sample-2'),
     arrangements(Numbers, 19208).
 
 star(1, X) :-
-    load_data(Numbers, 'input'),
+    phrase_from_file(input(Numbers), 'input'),
     differences(Numbers, A, B),
     X is A * B.
 
 star(2, X) :-
-    load_data(Numbers, 'input'),
+    phrase_from_file(input(Numbers), 'input'),
     arrangements(Numbers, X).
 
 main(_Argv) :-

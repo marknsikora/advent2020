@@ -14,10 +14,6 @@ input(Data) --> sequence(group, "\n", Data), eos.
 group(X) --> sequence(line, X).
 line(X) --> sequence(nonblank, X), "\n", { member(_, X) }.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 anyone -->
     maplist([A, B]>>foldl(union, A, [], B)),
     maplist(proper_length),
@@ -29,19 +25,19 @@ everyone -->
     sum_list.
 
 example(1) :-
-    load_data(Answers, 'sample'),
+    phrase_from_file(input(Answers), 'sample'),
     anyone(Answers, 11).
 
 example(2) :-
-    load_data(Answers, 'sample'),
+    phrase_from_file(input(Answers), 'sample'),
     everyone(Answers, 6).
 
 star(1, X) :-
-    load_data(Answers, 'input'),
+    phrase_from_file(input(Answers), 'input'),
     anyone(Answers, X).
 
 star(2, X) :-
-    load_data(Answers, 'input'),
+    phrase_from_file(input(Answers), 'input'),
     everyone(Answers, X).
 
 main(_Argv) :-

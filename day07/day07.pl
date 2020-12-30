@@ -38,10 +38,6 @@ bag_desc(bag(Style, Color)) -->
     nonblanks(Color_),
     { string_codes(Color, Color_) }.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 bag_from_rule(rule(Bag, _), Bag).
 
 bag_can_contain(Rules, Bag, Top) :-
@@ -71,23 +67,23 @@ bag_depth(Rules, Bag, X) :-
     sum_list(Depths, X).
 
 example(1) :-
-    load_data(Rules, 'sample-1'),
+    phrase_from_file(input(Rules), 'sample-1'),
     can_contain_gold(Rules, 4).
 
 example(2) :-
-    load_data(Rules, 'sample-1'),
+    phrase_from_file(input(Rules), 'sample-1'),
     bag_depth(Rules, bag("shiny", "gold"), 32).
 
 example(3) :-
-    load_data(Rules, 'sample-2'),
+    phrase_from_file(input(Rules), 'sample-2'),
     bag_depth(Rules, bag("shiny", "gold"), 126).
 
 star(1, X) :-
-    load_data(Rules, 'input'),
+    phrase_from_file(input(Rules), 'input'),
     can_contain_gold(Rules, X).
 
 star(2, X) :-
-    load_data(Rules, 'input'),
+    phrase_from_file(input(Rules), 'input'),
     bag_depth(Rules, bag("shiny", "gold"), X).
 
 main(_Argv) :-

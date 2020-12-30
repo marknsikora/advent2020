@@ -10,10 +10,6 @@
 input(Data) --> sequence(input_line, Data), eos.
 input_line(X) --> integer(X), "\n".
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 weakness(Preamble, [X|XS], Y) :-
     member(A, Preamble),
     member(B, Preamble),
@@ -34,23 +30,23 @@ crack(Numbers, N, X) :-
     X is Min + Max.
 
 example(1) :-
-    load_data(Data, 'sample'),
+    phrase_from_file(input(Data), 'sample'),
     append(Preamble, Rest, Data),
     proper_length(Preamble, 5),
     weakness(Preamble, Rest, 127).
 
 example(2) :-
-    load_data(Data, 'sample'),
+    phrase_from_file(input(Data), 'sample'),
     crack(Data, 127, 62).
 
 star(1, X) :-
-    load_data(Data, 'input'),
+    phrase_from_file(input(Data), 'input'),
     append(Preamble, Rest, Data),
     proper_length(Preamble, 25),
     weakness(Preamble, Rest, X).
 
 star(2, X) :-
-    load_data(Data, 'input'),
+    phrase_from_file(input(Data), 'input'),
     append(Preamble, Rest, Data),
     proper_length(Preamble, 25),
     weakness(Preamble, Rest, N),

@@ -13,10 +13,6 @@ input([X|Data]) -->
 
 input([]) --> eos.
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 solve(Numbers, A, B) :-
     member(A, Numbers),
     member(B, Numbers),
@@ -29,22 +25,22 @@ solve(Numbers, A, B, C) :-
     A + B + C =:= 2020.
 
 example(1) :-
-    load_data(Numbers, 'sample'),
+    phrase_from_file(input(Numbers), 'sample'),
     solve(Numbers, A, B),
     A * B =:= 514579.
 
 example(2) :-
-    load_data(Numbers, 'sample'),
+    phrase_from_file(input(Numbers), 'sample'),
     solve(Numbers, A, B, C),
     A * B * C =:= 241861950.
 
 star(1, X) :-
-    load_data(Numbers, 'input'),
+    phrase_from_file(input(Numbers), 'input'),
     solve(Numbers, A, B),
     X is A * B.
 
 star(2, X) :-
-    load_data(Numbers, 'input'),
+    phrase_from_file(input(Numbers), 'input'),
     solve(Numbers, A, B, C),
     X is A * B * C.
 

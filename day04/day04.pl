@@ -31,10 +31,6 @@ field(pair(Key, Value)) -->
     ":",
     nonblanks(Value).
 
-load_data(Data, Name) :-
-    open(Name, read, Stream),
-    phrase_from_stream(input(Data), Stream).
-
 validate(X) :-
     member(pair("byr", _), X),
     member(pair("iyr", _), X),
@@ -73,27 +69,27 @@ ecl --> "oth".
 pid --> sequence(digit, X), { proper_length(X, 9) }.
 
 example(1) :-
-    load_data(Entries, 'sample'),
+    phrase_from_file(input(Entries), 'sample'),
     include(validate, Entries, Valid),
     proper_length(Valid, 2).
 
 example(2) :-
-    load_data(Entries, 'invalid'),
+    phrase_from_file(input(Entries), 'invalid'),
     include(revalidate, Entries, Valid),
     proper_length(Valid, 0).
 
 example(3) :-
-    load_data(Entries, 'valid'),
+    phrase_from_file(input(Entries), 'valid'),
     include(revalidate, Entries, Valid),
     proper_length(Valid, 4).
 
 star(1, X) :-
-    load_data(Entries, 'input'),
+    phrase_from_file(input(Entries), 'input'),
     include(validate, Entries, Valid),
     proper_length(Valid, X).
 
 star(2, X) :-
-    load_data(Entries, 'input'),
+    phrase_from_file(input(Entries), 'input'),
     include(revalidate, Entries, Valid),
     proper_length(Valid, X).
 
