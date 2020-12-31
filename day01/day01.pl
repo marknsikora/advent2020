@@ -12,15 +12,15 @@ input(X) --> sequence(input_line, X), eos.
 input_line(X) --> integer(X), "\n".
 
 solve(Numbers, A, B) :-
+    A + B #= 2020,
     member(A, Numbers),
-    member(B, Numbers),
-    A + B #= 2020.
+    member(B, Numbers).
 
 solve(Numbers, A, B, C) :-
+    A + B + C #= 2020,
     member(A, Numbers),
     member(B, Numbers),
-    member(C, Numbers),
-    A + B + C #= 2020.
+    member(C, Numbers).
 
 example(1) :-
     phrase_from_file(input(Numbers), 'sample'),
