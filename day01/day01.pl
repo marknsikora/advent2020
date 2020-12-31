@@ -1,6 +1,7 @@
 #!/usr/bin/env swipl
 % vim: ft=prolog
 
+:- use_module(library(apply)).
 :- use_module(library(clpfd)).
 :- use_module(library(pure_input)).
 :- use_module(library(dcg/basics)).
@@ -11,36 +12,26 @@
 input(X) --> sequence(input_line, X), eos.
 input_line(X) --> integer(X), "\n".
 
-solve(Numbers, A, B) :-
-    A + B #= 2020,
-    member(A, Numbers),
-    member(B, Numbers).
-
-solve(Numbers, A, B, C) :-
-    A + B + C #= 2020,
-    member(A, Numbers),
-    member(B, Numbers),
-    member(C, Numbers).
+solve(Numbers, VS, X) :-
+    sum(VS, #=, 2020),
+    maplist({Numbers}/[A]>>member(A, Numbers), VS),
+    foldl([A,B,C]>>(C #= A * B), VS, 1, X).
 
 example(1) :-
     phrase_from_file(input(Numbers), 'sample'),
-    solve(Numbers, A, B),
-    A * B #= 514579.
+    solve(Numbers, [_,_], 514579).
 
 example(2) :-
     phrase_from_file(input(Numbers), 'sample'),
-    solve(Numbers, A, B, C),
-    A * B * C #= 241861950.
+    solve(Numbers, [_,_,_], 241861950).
 
 star(1, X) :-
     phrase_from_file(input(Numbers), 'input'),
-    solve(Numbers, A, B),
-    X #= A * B.
+    solve(Numbers, [_,_], X).
 
 star(2, X) :-
     phrase_from_file(input(Numbers), 'input'),
-    solve(Numbers, A, B, C),
-    X #= A * B * C.
+    solve(Numbers, [_,_,_], X).
 
 main(_Argv) :-
     example(1),
